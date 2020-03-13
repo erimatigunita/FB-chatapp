@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>homework</title>
+
+    <style>
+    /* ここにcss */
+        body{
+            background-image: url(imgs/wallpaper.jpg);
+        }
+        h1{
+            color:#008BBB;
+            background-color: whitesmoke;
+            width: fit-content;
+            margin: auto;
+            padding: 20px 20px 20px 20px;
+            margin-top: 40px;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+        }
+
+        #textbox{
+            text-align: center;
+            margin-top: 40px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #008BBB;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #username{
+            border-radius: 7px;
+            border: 2px solid #008BBB; 
+            z-index: 10;
+            outline: 0;
+            background-color: silver;
+        }
+
+        #username:focus{
+            border: 2px solid #A0522D; 
+            z-index: 10;
+            outline: 0;
+        }
+
+        #text{
+            border-radius: 7px;
+            border: 2px solid #008BBB; 
+            z-index: 10;
+            outline: 0;
+            background-color: silver;
+        }
+
+        #text:focus{
+            border: 2px solid #A0522D; 
+            z-index: 10;
+            outline: 0;
+        }
+
+        #send{
+            background-color: #008BBB;
+            color: whitesmoke;
+           font-weight: bold;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 5px 5px 5px 5px;
+            font-size: 20px;
+            border: unset;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            border-radius: 7px;
+        }
+
+        /* p:nth-child(3){
+            background-color: snow;
+        }
+        p:nth-child(odd){
+            background-color: silver;
+        } */
+
+        #output_item:nth-child(even){
+            background: silver;
+        }
+
+        #output_item:nth-child(odd){
+            background:silver;
+        }
+
+    </style>
+
+
+</head>
+
+<body>
+
+<h1>Let's have a chat with me!</h1>
+
+<div id="textbox">
+    <div>
+        Name
+        <input type="text" id="username">
+    </div>
+    
+    <div>
+        Text
+        <textarea name="" id="text" cols="30" rows="10"></textarea>
+    </div>
+    
+    <div>
+        <button id="send">SEND</button>
+    </div>
+</div>
+
+    <div>
+        <!-- 保存されたデータが表示される箇所 -->
+        <div id="output">
+            <p id="output_item"></p>
+        </div>
+    </div>　
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyD3aQ_JrGToL0dhpAAJRA1G2PepVBzU_3A",
+    authDomain: "marie-homework.firebaseapp.com",
+    databaseURL: "https://marie-homework.firebaseio.com",
+    projectId: "marie-homework",
+    storageBucket: "marie-homework.appspot.com",
+    messagingSenderId: "816599020344",
+    appId: "1:816599020344:web:deff28e2e00c43b3ba47cd"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+    const newPostRef = firebase.database().ref();
+
+    $("#send").on("click", function () {
+        newPostRef.push({
+            username: $("#username").val(),
+            text: $("#text").val(),
+        })
+
+        $("#text").val("");
+        $("#username").val("");
+    });
+
+    newPostRef.on("child_added", function (data) {
+      let v = data.val();
+      let str = `<p>${v.username}<br>${v.text}<P>`;
+      $("#output").prepend(str);
+    })
+
+</script>
+
+</body>
+</html>
